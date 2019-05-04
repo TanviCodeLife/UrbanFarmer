@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { auth, db } from '../config';
 import OfflineNotice from './OfflineNotice';
 import styles from '../styles/stylesComponent';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class EditModal extends Component {
     constructor(props){
@@ -23,15 +24,14 @@ export default class EditModal extends Component {
         errorQty: false,
        errorPrice: false,
         errorName: false,
-        submitValid: true,
-        submitEmpty: false
+        submitValid: true
       };
               
-  setModalVisible(visible) {
-    this.setState({
-        modalVisible: visible
-    });
-  }
+    toggleModalVisibility = () => {
+        this.setState({
+          modalVisible: !this.state.modalVisible
+        });
+      };
 
   handleDelete = (itemId) => {  
     let userId = auth.currentUser.uid;  
@@ -40,14 +40,15 @@ export default class EditModal extends Component {
   }
 
   deleteCombo = () => {
+    this.toggleModalVisibility();
     this.props.refresh();
     this.handleDelete(this.state.itemId);
-    this.setModalVisible(false);
+    
   }
 
   updateCombo = () => {
+    this.toggleModalVisibility();
     this.handleSubmit();
-    this.setModalVisible(false);
   }
 
   handleNameVal = (nam) => {
@@ -75,17 +76,10 @@ export default class EditModal extends Component {
     });
   }
 
-  checkInputEmpty = () => {
-    const { itemName, itemPrice, itemQty } = this.state;
-    if((this.nameInputRef && itemName)  && (this.priceInputRef && itemPrice) && (this.quantityInputRef && itemQty)){
-      this.setState({submitEmpty: true})
-    }
-  } 
-
 
   handleSubmit = () => {
-    this.checkInputEmpty();
-    if(this.state.submitValid && this.state.submitEmpty){ 
+
+    if(this.state.submitValid){ 
       db.ref('products/' + this.state.userId + '/' + this.state.itemId + '/name').set(
       this.state.itemName
     );
@@ -95,10 +89,8 @@ export default class EditModal extends Component {
     db.ref('products/' + this.state.userId + '/' + this.state.itemId + '/quantity').set(
       this.state.itemQty
       );
-      alert('item edited!');
-      this.setState({
-        submitEmpty: false
-      });
+      //alert('item edited!');
+    
     }
 
   };
@@ -115,16 +107,12 @@ export default class EditModal extends Component {
         <OfflineNotice/>
         
         <Modal
-        
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Please save chagnes.');
-          }}>
+          >
           <View style={styles.modalContainer}>
             <View>
-
               <TextInput
               ref={ref => this.nameInputRef = ref}
               style={this.state.errorName ? styles.modalErrorInput: styles.modalInput}
@@ -150,42 +138,39 @@ export default class EditModal extends Component {
             {errorQtyVisible}
             <View style={styles.buttonLayout} >
 
-              <View>
               <TouchableHighlight
                 style={styles.button}
                 onPress={this.deleteCombo}                  
               >
               <Text style={{color:'white'}}>Delete</Text>
               </TouchableHighlight>
-              </View>
+          
 
-              <View>
+              
               <TouchableHighlight
                 style={styles.button}
                 onPress={this.updateCombo}                     
               >
                 <Text style={{color:'white'}}>Update</Text>
               </TouchableHighlight>
-              </View>
+              
 
-              <View >
+              
                 <TouchableHighlight
                 style={styles.button}
-                onPress={() => {this.setModalVisible(false);}} 
+                onPress={this.toggleModalVisibility} 
                 >
                 <Text style={{color:'white'}}>Cancel</Text>
                 </TouchableHighlight>
-              </View>
-             
-            </View>
-           
+              
+                </View>
             </View>
           </View>
         </Modal>
 
         <TouchableHighlight
         style={styles.button}
-         onPress={() => {this.setModalVisible(true);}}
+         onPress={this.toggleModalVisibility}
         >
          
           <Text style={{color:'white'}}>Edit</Text>

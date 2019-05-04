@@ -119,7 +119,7 @@ export default class SoldModal extends Component {
 
 				    <Text style={styles.itemInput}>{this.state.itemQty} available at ${this.state.itemPrice} each</Text>
 
-            <Text style={styles.itemInput}>quantity To Sell: {this.state.quantityToSell}</Text>
+            <Text style={styles.itemInput}>Sell: {this.state.quantityToSell} {this.state.itemName}</Text>
             <View style={styles.sellButtonLayout}>
 
               <TouchableHighlight
