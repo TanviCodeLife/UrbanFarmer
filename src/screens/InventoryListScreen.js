@@ -55,7 +55,7 @@ export default class InventoryListScreen extends Component {
   }
 
   render() {
-    <OfflineNotice/>
+
     return (
       <View style={styles.container}>
         <OfflineNotice/>

@@ -36,7 +36,6 @@ export default class EditModal extends Component {
   handleDelete = (itemId) => {  
     let userId = auth.currentUser.uid;  
     db.ref('products/' + userId).child(itemId).remove();
-    alert('item Deleted!');
   }
 
   deleteCombo = () => {

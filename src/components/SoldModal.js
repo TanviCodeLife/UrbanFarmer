@@ -92,7 +92,7 @@ export default class SoldModal extends Component {
       purchaseButton =  <TouchableHighlight 
       style={styles.button}
       onPress = {this.handlePurchase}>
-      <Text style={{color:'white'}}> PurchaseButton</Text>
+      <Text style={{color:'white'}}> Sell</Text>
       </TouchableHighlight>
     }
 
