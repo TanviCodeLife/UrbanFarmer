@@ -7,6 +7,10 @@ This app was bootstrapped with Create React Native App
 
 A native application for iOS and Android users. Urban Farmer helps small scale growers manage their inventory and customer sales.
 
+Hosted on App Store and Google Play Store
+
+![project](src/img/projectDemo.png)
+
 ## Table of Contents
 * [Available Scripts](#available-scripts)
   * [npm start](#npm-start)
